@@ -1,0 +1,35 @@
+{
+    "name": "Hello, My Jira Worklog!",
+    "version": "1.0",
+    "manifest_version": 3,
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_title": "My Jira Worklog!",
+        "default_icon": "img/ex_logo.png",
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [{
+        "matches": [
+            "https://jiradomain/jira3/*",
+            "https://jiradomain/jira9/*"
+        ],
+        "js": [
+            "content_script.js", "static/js/moment.min.js"
+        ],
+        "run_at": "document_end"
+    }],
+    "icons": {
+        "512": "img/ex_logo.png"
+    },
+    "options_page": "options.html",
+    "permissions": [
+        "activeTab",
+        "storage",
+        "scripting",
+        "tabs",
+        "activeTab",
+        "contextMenus"
+    ]
+}

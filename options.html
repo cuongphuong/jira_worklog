@@ -1,0 +1,139 @@
+<!-- Create by CuongPV10 2022/03/10-->
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="option description" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="manifest.json" />
+    <title>JIRA WORKLOG</title>
+    <link href="static/css/options.css" rel="stylesheet">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/static/js/bootstrap.bundle.min.js" src="/static/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/mustache.min.js"></script>
+    <script src="/static/js/moment.min.js"></script>
+    <style>
+        #detailmsg_id::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="options" class="table-editable">
+        <div class="container-fluid" stype="padding: 10px 10px">
+            <div class="row">
+                <div class="col-2">
+                    <div style="margin-top: 20px"></div>
+                    <button id="load_from_clip_id" type="button" class="btn btn-outline-secondary">Load data from clipboard</button> <br />
+                    <button id="clear_table_id" style="margin-top: 20px;" type="button" class="btn btn-outline-danger">Clear</button><br />
+                    <button style="margin-top: 20px;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Import worklog</button>
+                    <hr>
+                    <a href="assets/xls/DailyReport_Template.xlsx">Template data</a> <span>   |   </span>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#helpModal">Help</a>
+                </div>
+                <div class="col-10">
+                    <table class="table table-bordered table-responsive-md table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Issue Key</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Time</th>
+                                <th scope="col">Worked</th>
+                                <th scope="col">Remaining</th>
+                                <th scope="col">Desscription</th>
+                                <th scope="col">Type of work</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Detail msg</th>
+                            </tr>
+                        </thead>
+                        <tbody id="data_content_id">
+                            <!-- by pass with js -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Login account</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Account</label>
+                                <input type="email" class="form-control" id="username" aria-describedby="usernameHelp">
+                            </div>
+                            <div class="mb-3">
+                                <label for="passwordIp" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="passwordIp">
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="jira_type" id="Jira3_id" value="j3">
+                                <label class="form-check-label" for="Jira3_id"> Jira 3  </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="jira_type" id="Jira9_id" value="j9">
+                                <label class="form-check-label" for="Jira9_id"> Jira 9 </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button id="import_worklog_id" type="button" class="btn btn-primary">Import</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade " id="helpModal" tabindex="-1" aria-labelledby="helpModal" aria-hidden="true">
+                <div class="modal-dialog modal-fullscreen">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-10" style="border-right: solid 1px #ddd;">
+                                    <h2>-</h2>
+                                    <hr>
+                                    <img width="100%" src="img/help.png">
+                                </div>
+                                <div class="col-2">
+                                    <h2>History</h2>
+                                    <hr>
+                                    <p>2022/03/10 - [CuongPV10]: Created</p>
+                                    <hr style="color: #ddd;">
+                                    <!-- ... -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script id="my-template" type="x-tmpl-mustache">
+            <tr data-key="{{data_k}}" style="background: {{colorcss}}">
+                <td>{{issue}}</td>
+                <td>{{date}}</td>
+                <td>{{time}}</td>
+                <td>{{worked}}</td>
+                <td>{{remaining}}</td>
+                <td>{{desscription}}</td>
+                <td>{{type}}</td>
+                <td>{{status}}</td>
+                <td id="detailmsg_id" title={{detailMsg}} style="max-width: 250px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: scroll;  overflow-x: hidden; white-space: pre-wrap; cursor: text;">{{detailMsg}}</td>
+            </tr>
+        </script>
+        <script src="options.js"></script>
+</body>
+
+</html>
